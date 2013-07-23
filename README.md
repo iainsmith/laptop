@@ -1,12 +1,10 @@
 Laptop
 ======
 
-Laptop is a script to set up a Mac OS X or Linux laptop for Rails development.
+Laptop is a script to set up a Mac OS X laptop for Rails development and general awesomeness.
 
 Requirements
 ------------
-
-### Mac OS X
 
 1) Install a C compiler.
 
@@ -20,34 +18,12 @@ for Lion (OS X 10.7) or Mountain Lion (OS X 10.8).
 
     chsh -s /bin/zsh
 
-### Linux
-
-We support:
-
-* [13.04: Raring Ringtail](https://wiki.ubuntu.com/RaringRingtail/ReleaseNotes),
-* [12.10: Quantal Quetzal](https://wiki.ubuntu.com/QuantalQuetzal/ReleaseNotes), and
-* [12.04 LTS: Precise Pangolin](https://wiki.ubuntu.com/PrecisePangolin/ReleaseNotes),
-* Debian stable (currently [wheezy](http://www.debian.org/releases/stable/)).
-* Debian testing (currently [jessie](http://www.debian.org/releases/testing/)).
-
-1) Install zsh and set it as your login shell:
-
-    bash <(wget -qO- https://raw.github.com/thoughtbot/laptop/master/linux-prerequisites)
-
 Install
 -------
 
-### Mac OS X
-
 Read, then run the script:
 
-    zsh <(curl -s https://raw.github.com/thoughtbot/laptop/master/mac)
-
-### Linux
-
-Read, then run the script:
-
-    zsh <(wget -qO- https://raw.github.com/thoughtbot/laptop/master/linux)
+    zsh <(curl -s https://raw.github.com/dustMason/laptop/master/mac)
 
 What it sets up
 ---------------
@@ -57,22 +33,17 @@ What it sets up
 * Foreman gem for serving Rails apps locally
 * Heroku Config plugin for local `ENV` variables
 * Heroku Toolbelt for interacting with the Heroku API
-* Hub gem for interacting with the GitHub API
 * Homebrew for managing operating system libraries (OS X only)
 * ImageMagick for cropping and resizing images
-* Postgres for storing relational data
+* Postgres.app for storing relational data
 * Postgres gem for talking to Postgres from Ruby
-* Qt for headless JavaScript testing via Capybara Webkit
 * Rails gem for writing web applications
 * Rbenv for managing versions of the Ruby programming language
 * Redis for storing key-value data
 * Ruby Build for installing Rubies
 * Ruby stable for writing general-purpose code
 * The Silver Searcher for finding things in files
-* Tmux for saving project state and switching between projects
-* Watch for periodically executing a program and displaying the output
-
-It should take less than 15 minutes to install (depends on your machine).
+* Lots of mac apps (Google Chrome, Skype, iStat Menus, etc)
 
 Credits
 -------

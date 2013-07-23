@@ -25,6 +25,9 @@ fancy_echo "Installing Redis, a good key-value database ..."
 fancy_echo "Installing coreutils"
   successfully brew install coreutils
 
+fancy_echo "Installing newest version of git"
+  successfully brew install git
+
 fancy_echo "Installing grc (for terminal coloring)"
   successfully brew install grc
 
