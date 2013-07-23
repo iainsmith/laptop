@@ -8,16 +8,19 @@ fancy_echo() {
   echo "\n$1"
 }
 
+application_exists() {
+  if [ -e "/Applications/$1" ]
+  then
+    fancy_echo "$1 exists, skipping!"
+    return 0
+  else
+    return 1
+  fi
+}
+
 fancy_echo "Installing Homebrew, a good OS X package manager ..."
   successfully ruby <(curl -fsS https://raw.github.com/mxcl/homebrew/go)
   successfully brew update
-
-if ! grep -qs "recommended by brew doctor" ~/.zshrc; then
-  fancy_echo "Put Homebrew location earlier in PATH ..."
-    successfully echo "\n# recommended by brew doctor" >> ~/.zshrc
-    successfully echo "export PATH='/usr/local/bin:$PATH'\n" >> ~/.zshrc
-    successfully source ~/.zshrc
-fi
 
 fancy_echo "Installing Redis, a good key-value database ..."
   successfully brew install redis
@@ -34,6 +37,21 @@ fancy_echo "Installing grc (for terminal coloring)"
 fancy_echo "Installing wget"
   successfully brew install wget
 
+fancy_echo "Installing The Silver Searcher (better than ack or grep) to search the contents of files ..."
+  successfully brew install the_silver_searcher
+
+fancy_echo "Installing ctags, to index files for vim tab completion of methods, classes, variables ..."
+  successfully brew install ctags
+
+fancy_echo "Installing ImageMagick, to crop and resize images ..."
+  successfully brew install imagemagick
+
+fancy_echo "Installing vim"
+  successfully brew install vim
+
+
+
+# ---- Node.js
 fancy_echo "Installing node.js"
   successfully brew install node
 
@@ -47,15 +65,9 @@ fancy_echo "Installing yeoman and ember.js generator (npm)"
   successfully npm install -g yo
   successfully npm install -g generator-ember
 
-fancy_echo "Installing The Silver Searcher (better than ack or grep) to search the contents of files ..."
-  successfully brew install the_silver_searcher
 
-fancy_echo "Installing ctags, to index files for vim tab completion of methods, classes, variables ..."
-  successfully brew install ctags
 
-fancy_echo "Installing ImageMagick, to crop and resize images ..."
-  successfully brew install imagemagick
-
+# ---- Ruby
 fancy_echo "Installing rbenv, to change Ruby versions ..."
   successfully brew install rbenv
 
@@ -73,9 +85,6 @@ fancy_echo "Installing rbenv-gem-rehash so the shell automatically picks up bina
 
 fancy_echo "Installing ruby-build, to install Rubies ..."
   successfully brew install ruby-build
-
-fancy_echo "Installing vim"
-  successfully brew install vim
 
 fancy_echo "Installing GNU Compiler Collection, a necessary prerequisite to installing Ruby ..."
   successfully brew tap homebrew/dupes
@@ -100,59 +109,100 @@ fancy_echo "Installing Heroku CLI client ..."
 fancy_echo "Installing the heroku-config plugin to pull config variables locally to be used as ENV variables ..."
   successfully heroku plugins:install git://github.com/ddollar/heroku-config.git
 
+
+# ---- Python
+fancy_echo "Install Python, pip and a pip module to make sure it all works ..."
+  successfully brew install python --framework
+  successfully easy_install pip
+  successfully pip install pyhn
+
+
+# ---- Applications
 fancy_echo "Loading up Cask for install mac binaries with brew"
   successfully brew tap phinze/homebrew-cask
   successfully brew install brew-cask
 
-fancy_echo "Installing Google Chrome"
+if ! application_exists "Google Chrome.app"; then
+  fancy_echo "Installing Google Chrome"
   successfully brew cask install google-chrome
+fi
 
-fancy_echo "Installing Alfred"
+if ! application_exists "Alfred.app"; then
+  fancy_echo "Installing Alfred"
   successfully brew cask install alfred
+fi
 
-fancy_echo "Installing Caffeine"
+if ! application_exists "Caffeine.app"; then
+  fancy_echo "Installing Caffeine"
   successfully brew cask install caffeine
+fi
 
-fancy_echo "Installing Cyberduck"
+if ! application_exists "Cyberduck.app"; then
+  fancy_echo "Installing Cyberduck"
   successfully brew cask install cyberduck
+fi
 
-fancy_echo "Installing Dropbox"
+if ! application_exists "Dropbox.app"; then
+  fancy_echo "Installing Dropbox"
   successfully brew cask install dropbox
+fi
 
-fancy_echo "Installing gfxCardStatus"
+if ! application_exists "gfxCardStatus.app"; then
+  fancy_echo "Installing gfxCardStatus"
   successfully brew cask install gfxcardstatus
+fi
 
-fancy_echo "Installing GitHub App"
+if ! application_exists "GitHub.app"; then
+  fancy_echo "Installing GitHub App"
   successfully brew cask install github
+fi
 
-fancy_echo "Installing iStat Menus"
+if ! application_exists "iStat Menus.app"; then
+  fancy_echo "Installing iStat Menus"
   successfully brew cask install istat-menus
+fi
 
-fancy_echo "Installing iStumbler"
+if ! application_exists "iStumbler.app"; then
+  fancy_echo "Installing iStumbler"
   successfully brew cask install i-stumbler
+fi
 
-fancy_echo "Installing MPlayerX"
+if ! application_exists "MPlayerX.app"; then
+  fancy_echo "Installing MPlayerX"
   successfully brew cask install mplayerx
+fi
 
-fancy_echo "Installing 1Password"
+if ! application_exists "1Password.app"; then
+  fancy_echo "Installing 1Password"
   successfully brew cask install one-password
+fi
 
-fancy_echo "Installing Postgres.app"
+if ! application_exists "Postgres.app"; then
+  fancy_echo "Installing Postgres.app"
   successfully brew cask install postgres
+fi
 
-fancy_echo "Installing Sequel Pro"
+if ! application_exists "Sequel Pro.app"; then
+  fancy_echo "Installing Sequel Pro"
   successfully brew cask install sequel-pro
+fi
 
-fancy_echo "Installing Skype"
+if ! application_exists "Skype.app"; then
+  fancy_echo "Installing Skype"
   successfully brew cask install skype
+fi
 
-fancy_echo "Installing Sparrow"
+if ! application_exists "Sparrow.app"; then
+  fancy_echo "Installing Sparrow"
   successfully brew cask install sparrow
+fi
 
-fancy_echo "Installing Spectacle"
+if ! application_exists "Spectacle.app"; then
+  fancy_echo "Installing Spectacle"
   successfully brew cask install spectacle
+fi
 
-fancy_echo "Installing XLD"
+if ! application_exists "XLD.app"; then
+  fancy_echo "Installing XLD"
   successfully brew cask install xld
-
-
+fi
