@@ -22,6 +22,28 @@ fi
 fancy_echo "Installing Redis, a good key-value database ..."
   successfully brew install redis
 
+fancy_echo "Installing coreutils"
+  successfully brew install coreutils
+
+fancy_echo "Installing grc (for terminal coloring)"
+  successfully brew install grc
+
+fancy_echo "Installing wget"
+  successfully brew install wget
+
+fancy_echo "Installing node.js"
+  successfully brew install node
+
+fancy_echo "Installing grunt (npm)"
+  successfully npm install -g grunt-cli
+
+fancy_echo "Installing bower (npm)"
+  successfully npm install -g bower
+
+fancy_echo "Installing yeoman and ember.js generator (npm)"
+  successfully npm install -g yo
+  successfully npm install -g generator-ember
+
 fancy_echo "Installing The Silver Searcher (better than ack or grep) to search the contents of files ..."
   successfully brew install the_silver_searcher
 
@@ -49,6 +71,9 @@ fancy_echo "Installing rbenv-gem-rehash so the shell automatically picks up bina
 fancy_echo "Installing ruby-build, to install Rubies ..."
   successfully brew install ruby-build
 
+fancy_echo "Installing vim"
+  successfully brew install vim
+
 fancy_echo "Installing GNU Compiler Collection, a necessary prerequisite to installing Ruby ..."
   successfully brew tap homebrew/dupes
   successfully brew install apple-gcc42
@@ -71,3 +96,60 @@ fancy_echo "Installing Heroku CLI client ..."
 
 fancy_echo "Installing the heroku-config plugin to pull config variables locally to be used as ENV variables ..."
   successfully heroku plugins:install git://github.com/ddollar/heroku-config.git
+
+fancy_echo "Loading up Cask for install mac binaries with brew"
+  successfully brew tap phinze/homebrew-cask
+  successfully brew install brew-cask
+
+fancy_echo "Installing Google Chrome"
+  successfully brew cask install google-chrome
+
+fancy_echo "Installing Alfred"
+  successfully brew cask install alfred
+
+fancy_echo "Installing Caffeine"
+  successfully brew cask install caffeine
+
+fancy_echo "Installing Cyberduck"
+  successfully brew cask install cyberduck
+
+fancy_echo "Installing Dropbox"
+  successfully brew cask install dropbox
+
+fancy_echo "Installing gfxCardStatus"
+  successfully brew cask install gfxcardstatus
+
+fancy_echo "Installing GitHub App"
+  successfully brew cask install github
+
+fancy_echo "Installing iStat Menus"
+  successfully brew cask install istat-menus
+
+fancy_echo "Installing iStumbler"
+  successfully brew cask install i-stumbler
+
+fancy_echo "Installing MPlayerX"
+  successfully brew cask install mplayerx
+
+fancy_echo "Installing 1Password"
+  successfully brew cask install one-password
+
+fancy_echo "Installing Postgres.app"
+  successfully brew cask install postgres
+
+fancy_echo "Installing Sequel Pro"
+  successfully brew cask install sequel-pro
+
+fancy_echo "Installing Skype"
+  successfully brew cask install skype
+
+fancy_echo "Installing Sparrow"
+  successfully brew cask install sparrow
+
+fancy_echo "Installing Spectacle"
+  successfully brew cask install spectacle
+
+fancy_echo "Installing XLD"
+  successfully brew cask install xld
+
+
