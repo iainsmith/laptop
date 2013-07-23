@@ -2,48 +2,68 @@ Laptop
 ======
 
 Laptop is a script to set up a Mac OS X laptop for Rails development and general awesomeness.
+It is designed to run on a fresh install of OS X 10.8.x, but probably works on 10.7.x.
 
 Requirements
 ------------
 
 1) Install a C compiler.
 
-Use [OS X GCC Installer](https://github.com/kennethreitz/osx-gcc-installer/) for
-Snow Leopard (OS X 10.6).
-
 Use [Command Line Tools for XCode](https://developer.apple.com/downloads/index.action)
 for Lion (OS X 10.7) or Mountain Lion (OS X 10.8).
-
-2) Set zsh as your login shell:
-
-    chsh -s /bin/zsh
 
 Install
 -------
 
-Read, then run the script:
+1) Clone the repo locally:
 
-    zsh <(curl -s https://raw.github.com/dustMason/laptop/master/mac)
+    git clone git@github.com:dustMason/laptop.git
+
+2) Read, then run the script:
+
+    laptop/mac
 
 What it sets up
 ---------------
 
-* Bundler gem for managing Ruby libraries
-* Exuberant Ctags for indexing files for vim tab completion
-* Foreman gem for serving Rails apps locally
-* Heroku Config plugin for local `ENV` variables
-* Heroku Toolbelt for interacting with the Heroku API
-* Homebrew for managing operating system libraries (OS X only)
-* ImageMagick for cropping and resizing images
-* Postgres.app for storing relational data
-* Postgres gem for talking to Postgres from Ruby
-* Rails gem for writing web applications
-* Rbenv for managing versions of the Ruby programming language
-* Redis for storing key-value data
+* Homebrew for managing operating system libraries
+* Rbenv for managing versions of Ruby
 * Ruby Build for installing Rubies
-* Ruby stable for writing general-purpose code
+* Builds Ruby 2.0.0-p247 from source
+* Several Ruby gems:
+  - Foreman for serving Rails apps locally
+  - Bundler for managing Ruby libraries
+  - Postgres for talking to Postgres from Ruby
+  - Rails for writing web applications
+* Latest release of Python 2.7, along with pip
+* Latest version of vim
+* Exuberant Ctags for indexing files for vim tab completion
+* My awesome dotfiles repo which includes:
+  - A simple but fully-featured vim config with plugins managed by vundle
+  - antigen for managing oh-my-zsh themes and plugins
+* Redis for storing key-value data
+* Heroku Toolbelt for interacting with the Heroku API
+* Heroku Config plugin for local `ENV` variables
+* ImageMagick for cropping and resizing images
 * The Silver Searcher for finding things in files
-* Lots of mac apps (Google Chrome, Skype, iStat Menus, etc)
+* Lots of mac apps:
+  - Google Chrome
+  - Alfred
+  - Caffeine
+  - Cyberduck
+  - Dropbox
+  - gfxCardStatus
+  - GitHub
+  - iStat Menus
+  - iStumbler
+  - MPlayerX
+  - 1Password
+  - Postgres
+  - Sequel Pro
+  - Skype
+  - Sparrow
+  - Spectacle
+  - XLD
 
 Credits
 -------

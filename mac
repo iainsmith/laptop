@@ -8,6 +8,18 @@ fancy_echo() {
   echo "\n$1"
 }
 
+# get sudo permission now - it will be needed by Cask and set-defaults.sh
+sudo -v
+
+# Keep-alive: update existing `sudo` time stamp until this whole thing has finished
+while true; do sudo -n true; sleep 60; kill -0 "$$" || exit; done 2>/dev/null &
+
+fancy_echo "Updating Mac OS X prefs and settings ..."
+./set-defaults.sh
+
+
+# ---- Set up default shell
+
 application_exists() {
   if [ -e "/Applications/$1" ]
   then
@@ -18,109 +30,193 @@ application_exists() {
   fi
 }
 
-fancy_echo "Installing Homebrew, a good OS X package manager ..."
+brew_installed() {
+  BREWS=`brew list`
+  if [[ "$BREWS" == *"$1"*  ]]; then
+    return 0
+  else
+    fancy_echo "Brew: Skipping $1, already installed ..."
+    return 1
+  fi
+}
+
+npm_installed() {
+  NPMS=`npm list -global`
+  if [[ "$NPMS" == *"$1"*  ]]; then
+    return 0
+  else
+    fancy_echo "NPM: Skipping $1, already installed ..."
+    return 1
+  fi
+}
+
+
+
+# ---- Homebrew
+if ! type "brew" &> /dev/null; then
+  fancy_echo "Installing Homebrew, a good OS X package manager ..."
   successfully ruby <(curl -fsS https://raw.github.com/mxcl/homebrew/go)
-  successfully brew update
+fi
+fancy_echo "Updating homebrew package list ..."
+successfully brew update
 
-fancy_echo "Installing Redis, a good key-value database ..."
+if ! brew_installed "redis"; then
+  fancy_echo "Installing Redis, a good key-value database ..."
   successfully brew install redis
+fi
 
-fancy_echo "Installing coreutils"
+if ! brew_installed "coreutils"; then
+  fancy_echo "Installing coreutils"
   successfully brew install coreutils
+fi
 
-fancy_echo "Installing newest version of git"
+if ! brew_installed "git"; then
+  fancy_echo "Installing newest version of git"
   successfully brew install git
+fi
 
-fancy_echo "Installing grc (for terminal coloring)"
+if ! brew_installed "grc"; then
+  fancy_echo "Installing grc (for terminal coloring)"
   successfully brew install grc
+fi
 
-fancy_echo "Installing wget"
+if ! brew_installed "wget"; then
+  fancy_echo "Installing wget"
   successfully brew install wget
+fi
 
-fancy_echo "Installing The Silver Searcher (better than ack or grep) to search the contents of files ..."
+if ! brew_installed "the_silver_searcher"; then
+  fancy_echo "Installing The Silver Searcher (better than ack or grep) to search the contents of files ..."
   successfully brew install the_silver_searcher
+fi
 
-fancy_echo "Installing ctags, to index files for vim tab completion of methods, classes, variables ..."
+if ! brew_installed "ctags"; then
+  fancy_echo "Installing ctags, to index files for vim tab completion of methods, classes, variables ..."
   successfully brew install ctags
+fi
 
-fancy_echo "Installing ImageMagick, to crop and resize images ..."
+if ! brew_installed "imagemagick"; then
+  fancy_echo "Installing ImageMagick, to crop and resize images ..."
   successfully brew install imagemagick
+fi
 
-fancy_echo "Installing vim"
+if ! brew_installed "vim"; then
+  fancy_echo "Installing vim"
   successfully brew install vim
+fi
+
+
+
+# ---- Set up default shell
+if ! brew_installed "zsh"; then
+  fancy_echo "Installing zsh"
+  successfully brew install zsh
+fi
+if ! [[ `echo $SHELL` == *"/usr/local/bin/zsh"* ]]; then
+  fancy_echo "Setting default shell to brew installed zsh ..."
+  echo "\n/usr/local/bin/zsh" >> /etc/shells
+  chsh -s /usr/local/bin/zsh
+fi
+
+
+
+# ---- Set up dotfiles
+if ! [ -e "$HOME/.dotfiles" ]; then
+  fancy_echo "Cloning dotfiles repo, bootstrapping ..."
+  git clone git@github.com:dustMason/dotfiles.git "$HOME/.dotfiles"
+  cd "$HOME/.dotfiles"
+  script/bootstrap
+  fancy_echo "Building YouCompleteMe ..."
+  cd "$HOME/.vim/bundle/YouCompleteMe"
+  ./install.sh
+fi
 
 
 
 # ---- Node.js
-fancy_echo "Installing node.js"
+if ! type "node" &> /dev/null; then
+  fancy_echo "Installing node.js"
   successfully brew install node
+fi
 
-fancy_echo "Installing grunt (npm)"
+if ! npm_installed "grunt"; then
+  fancy_echo "Installing grunt (npm)"
   successfully npm install -g grunt-cli
+fi
 
-fancy_echo "Installing bower (npm)"
+if ! npm_installed "bower"; then
+  fancy_echo "Installing bower (npm)"
   successfully npm install -g bower
+fi
 
-fancy_echo "Installing yeoman and ember.js generator (npm)"
+if ! npm_installed "yo"; then
+  fancy_echo "Installing yeoman and ember.js generator (npm)"
   successfully npm install -g yo
   successfully npm install -g generator-ember
+fi
 
 
 
 # ---- Ruby
 fancy_echo "Installing rbenv, to change Ruby versions ..."
+if ! brew_installed "rbenv"; then
   successfully brew install rbenv
+  successfully eval "$(rbenv init -)"
+  source "$HOME/.zshrc"
+fi
 
-  if ! grep -qs "rbenv init" ~/.zshrc; then
-    successfully echo 'eval "$(rbenv init -)"' >> ~/.zshrc
-
-    fancy_echo "Enable shims and autocompletion ..."
-      successfully eval "$(rbenv init -)"
-  fi
-
-  source ~/.zshrc
-
-fancy_echo "Installing rbenv-gem-rehash so the shell automatically picks up binaries after installing gems with binaries..."
+if ! brew_installed "rbenv-gem-rehash"; then
+  fancy_echo "Installing rbenv-gem-rehash so the shell automatically picks up binaries after installing gems with binaries..."
   successfully brew install rbenv-gem-rehash
+fi
 
-fancy_echo "Installing ruby-build, to install Rubies ..."
+if ! brew_installed "ruby-build"; then
+  fancy_echo "Installing ruby-build, to install Rubies ..."
   successfully brew install ruby-build
+fi
 
-fancy_echo "Installing GNU Compiler Collection, a necessary prerequisite to installing Ruby ..."
-  successfully brew tap homebrew/dupes
-  successfully brew install apple-gcc42
+# fancy_echo "Installing GNU Compiler Collection, a necessary prerequisite to installing Ruby ..."
+# successfully brew tap homebrew/dupes
+# successfully brew install apple-gcc42
 
 fancy_echo "Installing Ruby 2.0.0-p247 ..."
-  CC=gcc-4.2 successfully rbenv install 2.0.0-p247
+# CC=gcc-4.2 successfully rbenv install 2.0.0-p247
+successfully rbenv install 2.0.0-p247
 
 fancy_echo "Setting Ruby 2.0.0-p247 as global default Ruby ..."
-  successfully rbenv global 2.0.0-p247
-  successfully rbenv shell 2.0.0-p247
+successfully rbenv global 2.0.0-p247
+successfully rbenv shell 2.0.0-p247
 
 fancy_echo "Updating to latest Rubygems version ..."
-  successfully gem update --system
+successfully gem update --system
 
 fancy_echo "Installing critical Ruby gems for Rails development ..."
-  successfully gem install bundler foreman pg rails unicorn --no-document
+successfully gem install bundler foreman pg rails unicorn --no-document
 
-fancy_echo "Installing Heroku CLI client ..."
+if ! brew_installed "heroku-toolbelt"; then
+  fancy_echo "Installing Heroku CLI client ..."
   successfully brew install heroku-toolbelt
+fi
 
 fancy_echo "Installing the heroku-config plugin to pull config variables locally to be used as ENV variables ..."
-  successfully heroku plugins:install git://github.com/ddollar/heroku-config.git
+successfully heroku plugins:install git://github.com/ddollar/heroku-config.git
+
 
 
 # ---- Python
-fancy_echo "Install Python, pip and a pip module to make sure it all works ..."
+if ! brew_installed "python"; then
+  fancy_echo "Install Python, pip and a pip module to make sure it all works ..."
   successfully brew install python --framework
   successfully easy_install pip
   successfully pip install pyhn
+fi
+
 
 
 # ---- Applications
 fancy_echo "Loading up Cask for install mac binaries with brew"
-  successfully brew tap phinze/homebrew-cask
-  successfully brew install brew-cask
+successfully brew tap phinze/homebrew-cask
+successfully brew install brew-cask
 
 if ! application_exists "Google Chrome.app"; then
   fancy_echo "Installing Google Chrome"
