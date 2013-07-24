@@ -281,3 +281,9 @@ fi
 if ! application_exists "XLD.app"; then
   successfully brew cask install xld
 fi
+
+# All that stuff gets installed in ~/Applications, but I want them in /Applications
+fancy_echo "Moving any Applications in the user directory to /Applications ..."
+mv "$HOME/Applications/*" /Applications
+
+fancy_echo "All done."
