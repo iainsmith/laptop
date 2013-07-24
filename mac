@@ -1,11 +1,11 @@
 #!/usr/bin/env zsh
 
 successfully() {
-  $* || (echo "\nfailed" 1>&2 && exit 1)
+  $* || (echo "\n❌  failed" 1>&2 && exit 1)
 }
 
 fancy_echo() {
-  echo "\n$1"
+  echo "\n🔔  $1"
 }
 
 # get sudo permission now - it will be needed by Cask and set-defaults.sh
@@ -23,9 +23,10 @@ fancy_echo "Updating Mac OS X prefs and settings ..."
 application_exists() {
   if [ -e "/Applications/$1" ]
   then
-    fancy_echo "$1 exists, skipping!"
+    fancy_echo "$1 exists, skipping ..."
     return 0
   else
+    fancy_echo "App: Installing $1 ..."
     return 1
   fi
 }
@@ -33,9 +34,10 @@ application_exists() {
 brew_installed() {
   BREWS=`brew list`
   if [[ "$BREWS" == *"$1"*  ]]; then
+    fancy_echo "Brew: Skipping $1, already installed ..."
     return 0
   else
-    fancy_echo "Brew: Skipping $1, already installed ..."
+    fancy_echo "Brew: Installing $1 ..."
     return 1
   fi
 }
@@ -43,9 +45,10 @@ brew_installed() {
 npm_installed() {
   NPMS=`npm list -global`
   if [[ "$NPMS" == *"$1"*  ]]; then
+    fancy_echo "NPM: Skipping $1, already installed ..."
     return 0
   else
-    fancy_echo "NPM: Skipping $1, already installed ..."
+    fancy_echo "NPM: Installing $1 ..."
     return 1
   fi
 }
@@ -61,47 +64,38 @@ fancy_echo "Updating homebrew package list ..."
 successfully brew update
 
 if ! brew_installed "redis"; then
-  fancy_echo "Installing Redis, a good key-value database ..."
   successfully brew install redis
 fi
 
 if ! brew_installed "coreutils"; then
-  fancy_echo "Installing coreutils"
   successfully brew install coreutils
 fi
 
 if ! brew_installed "git"; then
-  fancy_echo "Installing newest version of git"
   successfully brew install git
 fi
 
 if ! brew_installed "grc"; then
-  fancy_echo "Installing grc (for terminal coloring)"
   successfully brew install grc
 fi
 
 if ! brew_installed "wget"; then
-  fancy_echo "Installing wget"
   successfully brew install wget
 fi
 
 if ! brew_installed "the_silver_searcher"; then
-  fancy_echo "Installing The Silver Searcher (better than ack or grep) to search the contents of files ..."
   successfully brew install the_silver_searcher
 fi
 
 if ! brew_installed "ctags"; then
-  fancy_echo "Installing ctags, to index files for vim tab completion of methods, classes, variables ..."
   successfully brew install ctags
 fi
 
 if ! brew_installed "imagemagick"; then
-  fancy_echo "Installing ImageMagick, to crop and resize images ..."
   successfully brew install imagemagick
 fi
 
 if ! brew_installed "vim"; then
-  fancy_echo "Installing vim"
   successfully brew install vim
 fi
 
@@ -109,7 +103,6 @@ fi
 
 # ---- Set up default shell
 if ! brew_installed "zsh"; then
-  fancy_echo "Installing zsh"
   successfully brew install zsh
 fi
 if ! [[ `echo $SHELL` == *"/usr/local/bin/zsh"* ]]; then
@@ -140,17 +133,14 @@ if ! type "node" &> /dev/null; then
 fi
 
 if ! npm_installed "grunt"; then
-  fancy_echo "Installing grunt (npm)"
   successfully npm install -g grunt-cli
 fi
 
 if ! npm_installed "bower"; then
-  fancy_echo "Installing bower (npm)"
   successfully npm install -g bower
 fi
 
 if ! npm_installed "yo"; then
-  fancy_echo "Installing yeoman and ember.js generator (npm)"
   successfully npm install -g yo
   successfully npm install -g generator-ember
 fi
@@ -158,28 +148,27 @@ fi
 
 
 # ---- Ruby
-fancy_echo "Installing rbenv, to change Ruby versions ..."
 if ! brew_installed "rbenv"; then
   successfully brew install rbenv
-  successfully eval "$(rbenv init -)"
-  source "$HOME/.zshrc"
 fi
 
 if ! brew_installed "rbenv-gem-rehash"; then
-  fancy_echo "Installing rbenv-gem-rehash so the shell automatically picks up binaries after installing gems with binaries..."
   successfully brew install rbenv-gem-rehash
 fi
 
 if ! brew_installed "ruby-build"; then
-  fancy_echo "Installing ruby-build, to install Rubies ..."
   successfully brew install ruby-build
 fi
+
+successfully eval "$(rbenv init -)"
+source "$HOME/.zshrc"
 
 # fancy_echo "Installing GNU Compiler Collection, a necessary prerequisite to installing Ruby ..."
 # successfully brew tap homebrew/dupes
 # successfully brew install apple-gcc42
 
-if ! [[ `ruby -v` == *"2.0.0-p247"* ]]; then
+$RUBYVER=`ruby -v`
+if ! [[ $RUBYVER == *"2.0.0p247"* ]]; then
   fancy_echo "Installing Ruby 2.0.0-p247 ..."
   # CC=gcc-4.2 successfully rbenv install 2.0.0-p247
   successfully rbenv install 2.0.0-p247
@@ -197,12 +186,16 @@ fancy_echo "Installing critical Ruby gems for Rails development ..."
 successfully gem install bundler foreman pg rails unicorn --no-document
 
 if ! brew_installed "heroku-toolbelt"; then
-  fancy_echo "Installing Heroku CLI client ..."
   successfully brew install heroku-toolbelt
 fi
 
-fancy_echo "Installing the heroku-config plugin to pull config variables locally to be used as ENV variables ..."
-successfully heroku plugins:install git://github.com/ddollar/heroku-config.git
+$HEROKUPLUGS=`heroku plugins`
+if ! [[ "$HEROKUPLUGS" == *"heroku-config"* ]]; then
+  fancy_echo "Installing the heroku-config plugin to pull config variables locally to be used as ENV variables ..."
+  successfully heroku plugins:install git://github.com/ddollar/heroku-config.git
+else
+  fancy_echo "Heroku Config plugin is already installed, skipping ..."
+fi
 
 
 
@@ -222,86 +215,69 @@ successfully brew tap phinze/homebrew-cask
 successfully brew install brew-cask
 
 if ! application_exists "Google Chrome.app"; then
-  fancy_echo "Installing Google Chrome"
   successfully brew cask install google-chrome
 fi
 
 if ! application_exists "Alfred.app"; then
-  fancy_echo "Installing Alfred"
   successfully brew cask install alfred
 fi
 
 if ! application_exists "Caffeine.app"; then
-  fancy_echo "Installing Caffeine"
   successfully brew cask install caffeine
 fi
 
 if ! application_exists "Cyberduck.app"; then
-  fancy_echo "Installing Cyberduck"
   successfully brew cask install cyberduck
 fi
 
 if ! application_exists "Dropbox.app"; then
-  fancy_echo "Installing Dropbox"
   successfully brew cask install dropbox
 fi
 
 if ! application_exists "gfxCardStatus.app"; then
-  fancy_echo "Installing gfxCardStatus"
   successfully brew cask install gfxcardstatus
 fi
 
 if ! application_exists "GitHub.app"; then
-  fancy_echo "Installing GitHub App"
   successfully brew cask install github
 fi
 
 if ! application_exists "iStat Menus.app"; then
-  fancy_echo "Installing iStat Menus"
   successfully brew cask install istat-menus
 fi
 
 if ! application_exists "iStumbler.app"; then
-  fancy_echo "Installing iStumbler"
   successfully brew cask install i-stumbler
 fi
 
 if ! application_exists "MPlayerX.app"; then
-  fancy_echo "Installing MPlayerX"
   successfully brew cask install mplayerx
 fi
 
 if ! application_exists "1Password.app"; then
-  fancy_echo "Installing 1Password"
   successfully brew cask install one-password
 fi
 
 if ! application_exists "Postgres.app"; then
-  fancy_echo "Installing Postgres.app"
   successfully brew cask install postgres
 fi
 
 if ! application_exists "Sequel Pro.app"; then
-  fancy_echo "Installing Sequel Pro"
   successfully brew cask install sequel-pro
 fi
 
 if ! application_exists "Skype.app"; then
-  fancy_echo "Installing Skype"
   successfully brew cask install skype
 fi
 
 if ! application_exists "Sparrow.app"; then
-  fancy_echo "Installing Sparrow"
   successfully brew cask install sparrow
 fi
 
 if ! application_exists "Spectacle.app"; then
-  fancy_echo "Installing Spectacle"
   successfully brew cask install spectacle
 fi
 
 if ! application_exists "XLD.app"; then
-  fancy_echo "Installing XLD"
   successfully brew cask install xld
 fi
