@@ -284,6 +284,26 @@ fi
 fancy_echo "Moving any Applications in the user directory to /Applications ..."
 mv "$HOME/Applications/*" /Applications
 
+
+
+# Now! Download my projects!
+
+mkdir -p "$HOME/Code"
+mkdir -p "$HOME/Sites"
+
+gem install httparty github-backups
+rbenv rehash
+
+GITHUB_USERNAME=
+vared -p 'Enter your GitHub username: ' GITHUB_USERNAME
+
+GITHUB_PASSWORD=
+vared -p 'Enter your GitHub password: ' GITHUB_PASSWORD
+
+github-backup -u "$GITHUB_USERNAME" -p "$GITHUB_PASSWORD" -o "$HOME/Code"
+
+
+
 fancy_echo "All done installing, opening some sites from which you can download the rest ..."
 open "http://www.obdev.at/products/littlesnitch/index.html"
 open "http://sourceforge.net/projects/sourcecodepro.adobe/files/latest/download"
