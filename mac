@@ -224,16 +224,8 @@ if ! application_exists "Caffeine.app"; then
   successfully brew cask install caffeine
 fi
 
-if ! application_exists "Cyberduck.app"; then
-  successfully brew cask install cyberduck
-fi
-
 if ! application_exists "Dropbox.app"; then
   successfully brew cask install dropbox
-fi
-
-if ! application_exists "gfxCardStatus.app"; then
-  successfully brew cask install gfxcardstatus
 fi
 
 if ! application_exists "GitHub.app"; then
@@ -244,14 +236,6 @@ if ! application_exists "iStat Menus.app"; then
   successfully brew cask install istat-menus
 fi
 
-if ! application_exists "iStumbler.app"; then
-  successfully brew cask install i-stumbler
-fi
-
-if ! application_exists "MPlayerX.app"; then
-  successfully brew cask install mplayerx
-fi
-
 if ! application_exists "1Password.app"; then
   successfully brew cask install one-password
 fi
@@ -260,31 +244,13 @@ if ! application_exists "Postgres.app"; then
   successfully brew cask install postgres
 fi
 
-if ! application_exists "Sequel Pro.app"; then
-  successfully brew cask install sequel-pro
-fi
-
 if ! application_exists "Skype.app"; then
   successfully brew cask install skype
-fi
-
-if ! application_exists "Sparrow.app"; then
-  successfully brew cask install sparrow
 fi
 
 if ! application_exists "Spectacle.app"; then
   successfully brew cask install spectacle
 fi
-
-if ! application_exists "XLD.app"; then
-  successfully brew cask install xld
-fi
-
-# All that stuff gets installed in ~/Applications, but I want them in /Applications
-fancy_echo "Moving any Applications in the user directory to /Applications ..."
-mv "$HOME/Applications/*" /Applications
-
-
 
 # Now! Download my projects!
 
@@ -301,10 +267,3 @@ GITHUB_PASSWORD=
 vared -p 'Enter your GitHub password: ' GITHUB_PASSWORD
 
 github-backup -u "$GITHUB_USERNAME" -p "$GITHUB_PASSWORD" -o "$HOME/Code"
-
-
-
-fancy_echo "All done installing, opening some sites from which you can download the rest ..."
-open "http://www.obdev.at/products/littlesnitch/index.html"
-open "http://sourceforge.net/projects/sourcecodepro.adobe/files/latest/download"
-open "https://github.com/tomislav/osx-terminal.app-colors-solarized"
