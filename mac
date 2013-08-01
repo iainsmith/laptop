@@ -252,6 +252,30 @@ if ! application_exists "Spectacle.app"; then
   successfully brew cask install spectacle
 fi
 
+if ! application_exists "Evernote.app"; then
+  successfully brew cask install spectacle
+fi
+
+if ! application_exists "Skitch.app"; then
+  successfully brew cask install spectacle
+fi
+
+if ! application_exists "Spotify.app"; then
+  successfully brew cask install spectacle
+fi
+
+if ! application_exists "Google Drive.app"; then
+  successfully brew cask install spectacle
+fi
+
+if ! application_exists "iTerm.app"; then
+  successfully brew cask install spectacle
+fi
+
+if ! application_exists "Dropbox.app"; then
+  successfully brew cask install spectacle
+fi
+
 # Now! Download my projects!
 
 mkdir -p "$HOME/Code"
