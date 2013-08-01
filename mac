@@ -272,10 +272,6 @@ if ! application_exists "iTerm.app"; then
   successfully brew cask install spectacle
 fi
 
-if ! application_exists "Dropbox.app"; then
-  successfully brew cask install spectacle
-fi
-
 # Now! Download my projects!
 
 mkdir -p "$HOME/Code"
