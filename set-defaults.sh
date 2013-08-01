@@ -1,13 +1,12 @@
-
 ###############################################################################
 # General UI/UX                                                               #
 ###############################################################################
 
 # Set computer name (as done via System Preferences → Sharing)
-sudo scutil --set ComputerName "🐟"
-sudo scutil --set HostName "jordan"
-sudo scutil --set LocalHostName "jordan"
-sudo defaults write /Library/Preferences/SystemConfiguration/com.apple.smb.server NetBIOSName -string "Jordan"
+sudo scutil --set ComputerName "iain"
+sudo scutil --set HostName "iain"
+sudo scutil --set LocalHostName "iain"
+sudo defaults write /Library/Preferences/SystemConfiguration/com.apple.smb.server NetBIOSName -string "iain"
 
 # Set standby delay to 24 hours (default is 1 hour)
 sudo pmset -a standbydelay 86400
@@ -464,13 +463,5 @@ defaults write com.apple.appstore ShowDebugMenu -bool true
 defaults write com.google.Chrome ExtensionInstallSources -array "https://*.github.com/*" "http://userscripts.org/*"
 defaults write com.google.Chrome.canary ExtensionInstallSources -array "https://*.github.com/*" "http://userscripts.org/*"
 
-###############################################################################
-# SizeUp.app                                                                  #
-###############################################################################
 
-# Start SizeUp at login
-defaults write com.irradiatedsoftware.SizeUp StartAtLogin -bool true
-
-# Don’t show the preferences window on next start
-defaults write com.irradiatedsoftware.SizeUp ShowPrefsOnNextStart -bool false
 
