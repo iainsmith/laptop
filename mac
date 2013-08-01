@@ -253,23 +253,23 @@ if ! application_exists "Spectacle.app"; then
 fi
 
 if ! application_exists "Evernote.app"; then
-  successfully brew cask install spectacle
+  successfully brew cask install evernote
 fi
 
 if ! application_exists "Skitch.app"; then
-  successfully brew cask install spectacle
+  successfully brew cask install skitch
 fi
 
 if ! application_exists "Spotify.app"; then
-  successfully brew cask install spectacle
+  successfully brew cask install spotify
 fi
 
 if ! application_exists "Google Drive.app"; then
-  successfully brew cask install spectacle
+  successfully brew cask install google-drive
 fi
 
 if ! application_exists "iTerm.app"; then
-  successfully brew cask install spectacle
+  successfully brew cask install iterm
 fi
 
 # Now! Download my projects!

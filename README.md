@@ -17,7 +17,7 @@ Install
 
 1) Clone the repo locally:
 
-    git clone git@github.com:dustMason/laptop.git
+    git clone git@github.com:iainsmith/laptop.git
 
 2) Read, then run the script:
 
@@ -50,25 +50,25 @@ What it sets up
   - Google Chrome
   - Alfred
   - Caffeine
-  - Cyberduck
   - Dropbox
-  - gfxCardStatus
   - GitHub
   - iStat Menus
-  - iStumbler
-  - MPlayerX
   - 1Password
   - Postgres
-  - Sequel Pro
   - Skype
-  - Sparrow
   - Spectacle
   - XLD
+  - Google Drive
+  - Evernote
+  - Skitch
+  - iTerm2
+  - Spotify
 
 Credits
 -------
 
 ![thoughtbot](http://thoughtbot.com/assets/tm/logo.png)
+![dustMason](http://github.com/dustMason/laptop)
 
 Laptop is maintained and funded by [thoughtbot, inc](http://thoughtbot.com/community).
 The names and logos for thoughtbot are trademarks of thoughtbot, inc.
